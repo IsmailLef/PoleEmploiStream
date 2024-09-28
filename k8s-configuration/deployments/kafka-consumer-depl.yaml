@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  kafka-consumer-1
+  labels:
+    app:  kafka-consumer-1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app:  kafka-consumer-1
+  template:
+    metadata:
+      labels:
+        app:  kafka-consumer-1
+    spec:
+      containers:
+      - name:  kafka-consumer-1
+        image: lefismail/kafka-consumer:latest
+        env:
+        - name: BOOTSTRAP_SERVERS
+          value: "kafka-broker-1:9092,kafka-broker-2:9093,kafka-broker-3:9094"
+        - name: TOPIC_NAME
+          value: jobs
+        - name: GROUP_ID
+          value: kafka-consumer-1
+        - name: CASSANDRA_HOSTS
+          value: cassandra
+        - name: KEYSPACE
+          value: offresEmploi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  kafka-consumer-2
+  labels:
+    app:  kafka-consumer-2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app:  kafka-consumer-2
+  template:
+    metadata:
+      labels:
+        app:  kafka-consumer-2
+    spec:
+      containers:
+      - name:  kafka-consumer-2
+        image: lefismail/kafka-consumer:latest
+        env:
+        - name: BOOTSTRAP_SERVERS
+          value: "kafka-broker-1:9092,kafka-broker-2:9093,kafka-broker-3:9094"
+        - name: TOPIC_NAME
+          value: jobs
+        - name: GROUP_ID
+          value: kafka-consumer-2
+        - name: CASSANDRA_HOSTS
+          value: cassandra
+        - name: KEYSPACE
+          value: offresEmploi

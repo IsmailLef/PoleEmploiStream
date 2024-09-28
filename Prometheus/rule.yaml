@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    prometheus: rules
+    role: alert-rules
+  name: prom
+
+spec:
+  groups:
+  - name: cpu_rules
+    rules:
+    - alert: HighCPUUsage
+      expr: avg(irate(node_cpu_seconds_total{mode="idle"}[1m]) * 100) < 60
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High CPU usage detected"
+        description: "CPU usage is consistently greater than 0 for the last 5 minutes."
+    - alert: LowCPUUsage
+      expr: avg(irate(node_cpu_seconds_total{mode="idle"}[1m]) * 100) > 20
+      for: 5m
+      labels:
+        severity: info
+      annotations:
+        summary: "Low CPU usage detected"
+        description: "CPU usage is consistently less than 10 for the last 5 minutes."

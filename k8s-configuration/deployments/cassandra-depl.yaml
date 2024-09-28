@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cassandra
+  labels:
+    app: cassandra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cassandra
+  template:
+    metadata:
+      labels:
+        app: cassandra
+    spec:
+      containers:
+      - name: cassandra
+        image: lefismail/cassandra:latest
+        ports:
+        - containerPort: 9042
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - cqlsh --execute 'DESCRIBE TABLES;' | grep jobs
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 5
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cassandra-driver
+  labels:
+    app: cassandra-driver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cassandra-driver
+  template:
+    metadata:
+      labels:
+        app: cassandra-driver
+    spec:
+      containers:
+      - name: cassandra-driver
+        image: lefismail/cassandra_driver:latest
+        env:
+        - name: BOOTSTRAP_SERVERS
+          value: "kafka-broker-1:9092,kafka-broker-2:9093,kafka-broker-3:9094"   
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cassandra-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cassandra-exporter
+  template:
+    metadata:
+      labels:
+        app: cassandra-exporter
+    spec:
+      containers:
+      - name: cassandra-exporter
+        image: criteord/cassandra_exporter:latest
+        env:
+        - name: CASSANDRA_EXPORTER_CONFIG_host
+          value: "cassandra:7199"
+        ports:
+        - containerPort: 9500

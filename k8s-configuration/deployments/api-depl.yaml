@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  api-pole-emploi
+  labels:
+    app:  api-pole-emploi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  api-pole-emploi
+  template:
+    metadata:
+      labels:
+        app:  api-pole-emploi
+    spec:
+      containers:
+      - name:  api-pole-emploi
+        image: lefismail/api-pole-emploi:latest
+        env:
+        - name: BOOTSTRAP_SERVERS
+          value: "kafka-broker-1:9092,kafka-broker-2:9093,kafka-broker-3:9094"

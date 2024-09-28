@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka1
+  labels:
+    app: kafka-broker-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-broker-1
+  template:
+    metadata:
+      labels:
+        app: kafka-broker-1
+    spec:
+      volumes:
+      - name: kafka-data
+      containers:
+      - name: kafka
+        image: confluentinc/cp-kafka:latest
+        ports:
+        - containerPort: 9092
+        env:
+        - name: KAFKA_BROKER_ID
+          value: "1"
+        - name: KAFKA_ZOOKEEPER_CONNECT
+          value: "zookeeper:2181"
+        - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+          value: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+        - name: KAFKA_ADVERTISED_LISTENERS
+          value: PLAINTEXT://kafka-broker-1:9092,PLAINTEXT_INTERNAL://localhost:19092
+        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+          value: "1"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka2
+  labels:
+    app: kafka-broker-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-broker-2
+  template:
+    metadata:
+      labels:
+        app: kafka-broker-2
+    spec:
+      volumes:
+      - name: kafka-data
+      containers:
+      - name: kafka
+        image: confluentinc/cp-kafka:latest
+        ports:
+        - containerPort: 9093
+        env:
+        - name: KAFKA_BROKER_ID
+          value: "2"
+        - name: KAFKA_ZOOKEEPER_CONNECT
+          value: "zookeeper:2181"
+        - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+          value: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+        - name: KAFKA_ADVERTISED_LISTENERS
+          value: PLAINTEXT://kafka-broker-2:9093,PLAINTEXT_INTERNAL://localhost:19093
+        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+          value: "1"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka3
+  labels:
+    app: kafka-broker-3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-broker-3
+  template:
+    metadata:
+      labels:
+        app: kafka-broker-3
+    spec:
+      volumes:
+      - name: kafka-data
+      containers:
+      - name: kafka
+        image: confluentinc/cp-kafka:latest
+        ports:
+        - containerPort: 9094
+        env:
+        - name: KAFKA_BROKER_ID
+          value: "3"
+        - name: KAFKA_ZOOKEEPER_CONNECT
+          value: "zookeeper:2181"
+        - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+          value: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+        - name: KAFKA_ADVERTISED_LISTENERS
+          value: PLAINTEXT://kafka-broker-3:9094,PLAINTEXT_INTERNAL://localhost:19094
+        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+          value: "1"

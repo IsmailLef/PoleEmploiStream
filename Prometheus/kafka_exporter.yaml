@@ -1,0 +1,26 @@
+
+kafkaServer:
+  - kafka-broker-1:9092
+  - kafka-broker-2:9093
+  - kafka-broker-3:9094
+
+
+
+
+
+
+# 
+prometheus:
+  serviceMonitor:
+    enabled: true
+    namespace: default
+    interval: "15s"
+    # If serviceMonitor is enabled and you want prometheus to automatically register
+    # target using serviceMonitor, add additionalLabels with prometheus release name
+    # e.g. If you have deployed kube-prometheus-stack with release name kube-prometheus
+    # then additionalLabels will be
+    # additionalLabels:
+    #   release: kube-prometheus
+    additionalLabels: 
+      release: prom
+

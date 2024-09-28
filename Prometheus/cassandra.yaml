@@ -1,0 +1,39 @@
+apiVersion: k8ssandra.io/v1alpha1
+kind: K8ssandraCluster
+metadata:
+  name: cassandra
+  namespace: default
+spec:
+  cassandra:
+    serverVersion: "4.0.3"
+    serverImage: k8ssandra/cass-management-api:4.0.3
+    telemetry:
+      prometheus:
+        enabled: true
+    storageConfig:
+      cassandraDataVolumeClaimSpec:
+        storageClassName: standard
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+    config:
+      jvmOptions:
+        heapSize: 512M
+    datacenters:
+      - metadata:
+          name: dc1
+        size: 1
+    mgmtAPIHeap: 64Mi 
+  stargate:
+    size: 1
+    telemetry:
+      prometheus:
+        enabled: true
+  reaper:
+    keyspace: reaper_db
+    telemetry:
+      prometheus:
+        enabled: true
+

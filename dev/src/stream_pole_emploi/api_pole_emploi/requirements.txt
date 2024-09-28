@@ -1,0 +1,5 @@
+api-offres-emploi==0.0.2
+python-decouple==3.8
+kafka-python==2.0.2
+requests==2.31.0
+pandas>=1.5.3
