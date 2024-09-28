@@ -13,10 +13,10 @@ Le script met une petite dizaine de minutes pour se terminer. Vous aurez alors t
 
 ## Pour usage de l'application en local
 
-1. Dirigez-vous vers le répertoire sdtd/sdtd-dev/src/stream_pole_emploi :
+1. Dirigez-vous vers le répertoire dev/src/stream_pole_emploi :
 
 ```
-cd sdtd-dev/src/stream_pole_emploi
+cd dev/src/stream_pole_emploi
 ```
 
 2. Créez un fichier **.env** afin de spécifier vos informations d'identification. Vous pouvez utiliser les mêmes informations que celles fournies dans le fichier **.envexemple.**
