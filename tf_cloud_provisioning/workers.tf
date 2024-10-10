@@ -53,7 +53,7 @@ resource "null_resource" "transfer-state" {
   depends_on = [google_compute_instance.k8s_worker]
   provisioner "remote-exec" {
     inline = [
-      "bash script.sh"
+      "bash deploy_script.sh"
     ]
     connection {
       type        = "ssh"

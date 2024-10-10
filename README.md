@@ -43,7 +43,7 @@ To use the application locally, follow these steps:
 1. **Navigate to the project directory:**
 
     ```sh
-    cd StreamnProcess/src/stream_pole_emploi
+    cd dev/src/stream_pole_emploi
     ```
 
 2. **Create a `.env` file for your credentials:**
